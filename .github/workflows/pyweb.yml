@@ -10,6 +10,7 @@ on:
 jobs:
   build-windows:
     name: Build EXE on Windows
+    shell: cmd
     runs-on: windows-latest
 
     steps:
