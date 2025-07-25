@@ -57,6 +57,12 @@ fn main() -> Result<Infallible, Box<dyn Error>> {
     } else {
         // embedded Python, i.e., bundle mode with `tauri build`.
 
+        // Set Python encoding environment variables to fix AppImage deployment issues
+        std::env::set_var("PYTHONIOENCODING", "utf-8");
+        std::env::set_var("PYTHONUTF8", "1");
+        std::env::set_var("LC_ALL", "C.UTF-8");
+        std::env::set_var("LANG", "C.UTF-8");
+        
         let context = tauri_generate_context();
         let resource_dir = resource_dir(context.package_info(), &tauri::Env::default())
             .map_err(|err| format!("failed to get resource dir: {err}"))?;
