@@ -2,6 +2,7 @@ import { useState } from "react";
 import reactLogo from "./assets/react.svg";
 import supernovaLogo from "./assets/supernova.png";
 import { invoke } from "@tauri-apps/api/core";
+import { pyInvoke } from "tauri-plugin-pytauri-api";
 import "./App.css";
 
 function App() {
@@ -9,8 +10,19 @@ function App() {
   const [name, setName] = useState("");
 
   async function greet() {
-    // Learn more about Tauri commands at https://tauri.app/develop/calling-rust/
-    setGreetMsg(await invoke("greet", { name }));
+    try {
+      // Call the Rust greet function
+      const rsGreeting = await invoke("greet", { name });
+      
+      // Call the Python greet function
+      const pyGreeting = await pyInvoke("greet", { name });
+      
+      // Combine both greetings
+      setGreetMsg(rsGreeting + "\n" + pyGreeting.message);
+    } catch (error) {
+      console.error("Error calling greet:", error);
+      setGreetMsg("Error: " + error.message);
+    }
   }
 
   return (
