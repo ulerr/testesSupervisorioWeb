@@ -7,10 +7,9 @@ on:
   workflow_dispatch:
 
 
-jobs:
+jjobs:
   build-windows:
     name: Build EXE on Windows
-    shell: cmd
     runs-on: windows-latest
 
     steps:
@@ -28,6 +27,7 @@ jobs:
           pip install pyinstaller
 
       - name: Build with PyInstaller
+        shell: cmd
         run: |
           if exist test.spec (
             pyinstaller test.spec
