@@ -7,7 +7,7 @@ on:
   workflow_dispatch:
 
 
-jjobs:
+jobs:
   build-windows:
     name: Build EXE on Windows
     runs-on: windows-latest
