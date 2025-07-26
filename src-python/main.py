@@ -3,7 +3,7 @@ import os
 import threading
 from flask_server import run_flask_server
 import time
-import window_manager
+from window_manager import WindowManager
 
 DEV = os.getenv("DEV") == "1"
 VITE_PORT = 5173
@@ -26,4 +26,16 @@ if __name__ == '__main__':
         flask_thread = threading.Thread(target=start_flask_thread, daemon=True)
         flask_thread.start()
         
+        # espera o servidor iniciar
+        time.sleep(2)
     
+    # cria o gerenciador de janelas
+    window_manager = WindowManager(port=PORT)
+    
+    supervisorio = window_manager.open_supervisorio()
+    admin = window_manager.open_admin()
+        
+    print("Janelas abertas:", window_manager.list_open_windows())
+    print("Aplicação iniciada. Feche a janela de admin para encerrar.")
+
+    window_manager.wait_for_windows()
